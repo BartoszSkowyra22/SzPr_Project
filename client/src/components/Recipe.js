@@ -83,7 +83,7 @@ const Recipe = () => {
                 <h2 className={styles.recipe_header}>{recipe.name}</h2>
                 <div className={styles.recipe_details}>
                     <h3>Kategoria: {recipe.category}</h3>
-                    <p>Składniki:{recipe.ingredients}</p>
+                    <p>Składniki: {recipe.ingredients}</p>
                     <p>Instrukcja wykonania: {recipe.instructions}</p>
                     <p>Data dodania: {formatDate(recipe.createdAt)}</p>
                 </div>
