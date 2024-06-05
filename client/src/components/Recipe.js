@@ -19,12 +19,8 @@ const Recipe = () => {
                 }
                 const { data: res } = await axios(config);
                 setRecipe(res.data);
-                // ustawDane(res.data);
-                // setUser(null);
-                // ustawTytul(res.message);
             } catch (error) {
                 if (error.response && error.response.status >= 400 && error.response.status <= 500) {
-                    //localStorage.removeItem("token");
                     window.location.reload();
                 }
             }
@@ -46,24 +42,15 @@ const Recipe = () => {
                         navigate('/');
                     } catch (error) {
                         if (error.response && error.response.status >= 400 && error.response.status <= 500) {
-                            // localStorage.removeItem("token");
                             window.location.reload();
                         }
                     }
                 }
             }
-        // try {
-        //     const response = await axios.delete(`http://localhost:8080/api/recipes/${recipe._id}`);
-        //     console.log(response);
-        //     navigate('/');
-        // } catch (error) {
-        //     console.error('Error deleting recipe:', error.response || error.message);
-        // }
     };
 
     const handleLogout = () => {
         localStorage.removeItem("token");
-        // window.location.reload();
         navigate("/login");
     };
 
@@ -79,25 +66,11 @@ const Recipe = () => {
         return `${time} ${formattedDate}`;
     };
 
-    // console.log(recipe);
-    // console.log(recipe.id);
-
-
-
     if (!recipe) return <div>Loading...</div>;
     return (
         <div className={styles.main_container}>
             <nav className={styles.navbar}>
                 <h1>MySite</h1>
-                {/*<button className={styles.white_btn} onClick={handleGetUsers}>*/}
-                {/*    Użytkownicy*/}
-                {/*</button>*/}
-                {/*<button className={styles.white_btn} onClick={handleGetAccountDetails}>*/}
-                {/*    Szczegóły konta*/}
-                {/*</button>*/}
-                {/*<button className={styles.white_btn} onClick={handleDeleteUser}>*/}
-                {/*    Usuń konto*/}
-                {/*</button>*/}
                 <Link to="/" className={styles.white_btn}>Lista przepisów</Link>
                 <Link to="/addrecipe" className={styles.white_btn}>Nowy przepis</Link>
                 <button className={styles.white_btn} onClick={handleLogout}>
@@ -117,42 +90,3 @@ const Recipe = () => {
 };
 
 export default Recipe;
-
-
-// // src/components/AddRecipe.js
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import { useParams, useHistory } from 'react-router-dom';
-//
-// const AddRecipe = () => {
-//     const { id } = useParams();
-//     const [recipe, setRecipe] = useState(null);
-//     const history = useHistory();
-//
-//     useEffect(() => {
-//         const fetchRecipe = async () => {
-//             const response = await axios.get(`/api/recipes/${id}`);
-//             setRecipe(response.data.data);
-//         };
-//         fetchRecipe();
-//     }, [id]);
-//
-//     const handleDelete = async () => {
-//         await axios.delete(`/api/recipes/${id}`);
-//         history.push('/recipes');
-//     };
-//
-//     if (!recipe) return <div>Loading...</div>;
-//
-//     return (
-//         <div>
-//             <h2>{recipe.title}</h2>
-//             <p>{recipe.ingredients}</p>
-//             <p>{recipe.instructions}</p>
-//             <Link to={`/recipes/edit/${id}`}>Edit</Link>
-//             <button onClick={handleDelete}>Delete</button>
-//         </div>
-//     );
-// };
-//
-// export default AddRecipe;

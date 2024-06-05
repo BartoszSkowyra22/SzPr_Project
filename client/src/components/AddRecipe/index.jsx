@@ -18,7 +18,6 @@ const AddRecipe = () => {
     const handleChange = ({currentTarget: input}) => {
         setData({...data, [input.name]: input.value})
     }
-    //console.log(id)
 
     useEffect(() => {
         if (id) {
@@ -34,9 +33,6 @@ const AddRecipe = () => {
                             instructions: data.data.instructions,
                         });
                         console.log({...data.data});
-                        // setName(data.name);
-                        // setIngredients(data.ingredients.join(', '));
-                        // setInstructions(data.instructions);
                     } catch (error) {
                         console.error('Error fetching recipe:', error.response || error.message);
                     }
@@ -98,7 +94,8 @@ const AddRecipe = () => {
                             required
                             className={styles.input}
                         />
-                        <select name="category" value={data.category} onChange={handleChange} required className={styles.input}>
+                        <select name="category" value={data.category} onChange={handleChange} required
+                                className={styles.input}>
                             <option value="">Wybierz kategorię</option>
                             {categories.map(category => (
                                 <option key={category} value={category}>{category}</option>
@@ -122,15 +119,6 @@ const AddRecipe = () => {
                             required
                             className={styles.input}
                         />
-                        {/*<input*/}
-                        {/*    type="password"*/}
-                        {/*    placeholder="Password"*/}
-                        {/*    name="password"*/}
-                        {/*    onChange={handleChange}*/}
-                        {/*    value={data.password}*/}
-                        {/*    required*/}
-                        {/*    className={styles.input}*/}
-                        {/*/>*/}
                         {error && <div
                             className={styles.error_msg}>{error}</div>}
                         <button type="submit"
