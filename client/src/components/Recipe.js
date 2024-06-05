@@ -105,9 +105,11 @@ const Recipe = () => {
                 </button>
             </nav>
             <h2>{recipe.name}</h2>
-            <p>{recipe.ingredients}</p>
-            <p>{recipe.instructions}</p>
+            <h3>Kategoria: {recipe.category}</h3>
+            <p>Składniki: {recipe.ingredients}</p>
+            <p>Instrukcja wykonania: {recipe.instructions}</p>
             <p>{formatDate(recipe.createdAt)}</p>
+            <Link to={'/'}>Powrót</Link>
             <Link to={`/recipes/${recipe._id}/edit`}>Edit</Link>
             <button onClick={handleDelete}>Delete</button>
         </div>

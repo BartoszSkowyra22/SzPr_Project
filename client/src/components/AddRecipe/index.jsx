@@ -3,9 +3,12 @@ import axios from "axios"
 import {Link, useNavigate, useParams} from "react-router-dom"
 import styles from "./styles.module.css"
 
+const categories = ['Śniadanie', 'Zupa', 'Obiad', 'Kolacja', 'Deser'];
+
 const AddRecipe = () => {
     const [data, setData] = useState({
         name: "",
+        category: "",
         ingredients: "",
         instructions: "",
     })
@@ -26,6 +29,7 @@ const AddRecipe = () => {
                         const {data} = await axios.get(`http://localhost:8080/api/recipes/${id}`);
                         setData({
                             name: data.data.name,
+                            category: data.data.category,
                             ingredients: data.data.ingredients,
                             instructions: data.data.instructions,
                         });
@@ -73,7 +77,7 @@ const AddRecipe = () => {
         <div className={styles.signup_container}>
             <div className={styles.signup_form_container}>
                 <div className={styles.left}>
-                    <h1>Welcome Back</h1>
+                    <h1>Chcesz więcej?</h1>
                     <Link to="/">
                         <button type="button"
                                 className={styles.white_btn}>
@@ -94,6 +98,12 @@ const AddRecipe = () => {
                             required
                             className={styles.input}
                         />
+                        <select name="category" value={data.category} onChange={handleChange} required className={styles.input}>
+                            <option value="">Wybierz kategorię</option>
+                            {categories.map(category => (
+                                <option key={category} value={category}>{category}</option>
+                            ))}
+                        </select>
                         <input
                             type="text"
                             placeholder="Składniki"

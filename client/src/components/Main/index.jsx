@@ -1,185 +1,76 @@
-// import styles from "./styles.module.css";
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import axios from "axios";
-// import Users from "../users";
-// import AccountDetails from "../accountDetails";
-// import Recipes from "../recipes"; // Importujemy komponent Recipes
-// import { Button } from 'react-bootstrap';
-//
-// const Main = () => {
-//     const [dane, ustawDane] = useState([]);
-//     const [myUser, setUser] = useState(null);
-//     const [tytul, ustawTytul] = useState("");
-//     const navigate = useNavigate();
-//
-//     const handleGetUsers = async () => {
-//         const token = localStorage.getItem("token");
-//         if (token) {
-//             try {
-//                 const config = {
-//                     method: 'get',
-//                     url: 'http://localhost:8080/api/users',
-//                     headers: {'Content-Type': 'application/json', 'x-access-token': token}
-//                 };
-//                 const { data: res } = await axios(config);
-//                 ustawDane(res.data);
-//                 setUser(null);
-//                 ustawTytul(res.message);
-//             } catch (error) {
-//                 console.error('Error fetching users:', error.response || error.message);
-//                 if (error.response && error.response.status >= 400 && error.response.status <= 500) {
-//                     localStorage.removeItem("token");
-//                     window.location.reload();
-//                 }
-//             }
-//         }
-//     };
-//
-//     const handleGetAccountDetails = async () => {
-//         const token = localStorage.getItem("token");
-//         if (token) {
-//             try {
-//                 const config = {
-//                     method: 'get',
-//                     url: 'http://localhost:8080/api/users/myUser',
-//                     headers: {'Content-Type': 'application/json', 'x-access-token': token}
-//                 };
-//                 const { data: res } = await axios(config);
-//                 setUser(res.data);
-//                 ustawDane([]);
-//                 ustawTytul(res.message);
-//             } catch (error) {
-//                 console.error('Error fetching account details:', error.response || error.message);
-//                 if (error.response && error.response.status >= 400 && error.response.status <= 500) {
-//                     localStorage.removeItem("token");
-//                     window.location.reload();
-//                 }
-//             }
-//         }
-//     };
-//
-//     const handleDeleteUser = async () => {
-//         const token = localStorage.getItem("token");
-//         if (token) {
-//             var windowChecked = window.confirm("Czy na pewno chcesz usunąć?");
-//             if (windowChecked) {
-//                 try {
-//                     const config = {
-//                         method: 'get',
-//                         url: 'http://localhost:8080/api/users/delete',
-//                         headers: {'Content-Type': 'application/json', 'x-access-token': token}
-//                     };
-//                     await axios(config);
-//                     localStorage.removeItem("token");
-//                     window.location.reload();
-//                 } catch (error) {
-//                     console.error('Error deleting user:', error.response || error.message);
-//                     if (error.response && error.response.status >= 400 && error.response.status <= 500) {
-//                         localStorage.removeItem("token");
-//                         window.location.reload();
-//                     }
-//                 }
-//             }
-//         }
-//     };
-//
-//     const handleLogout = () => {
-//         localStorage.removeItem("token");
-//         window.location.reload();
-//     };
-//
-//     // Nowa funkcja obsługująca pobieranie przepisów
-//     const handleGetRecipes = () => {
-//         navigate('/recipes'); // Nawigacja do ścieżki "/recipes"
-//     };
-//
-//     return (
-//         <div className={styles.main_container}>
-//             <nav className={styles.navbar}>
-//                 <h1>MySite</h1>
-//                 <Button className={styles.white_btn} onClick={handleGetUsers}>Użytkownicy</Button>
-//                 <Button className={styles.white_btn} onClick={handleGetAccountDetails}>Szczegóły konta</Button>
-//                 <Button className={styles.white_btn} onClick={handleGetRecipes}>Przepisy</Button> {/* Dodajemy przycisk "Przepisy" */}
-//                 <Button className={styles.white_btn} onClick={handleDeleteUser}>Usuń konto</Button>
-//                 <Button className={styles.white_btn} onClick={handleLogout}>Logout</Button>
-//             </nav>
-//             {tytul !== "" ? <h1>{tytul}</h1> : null}
-//             {dane.length > 0 ? <Users users={dane}/> : null}
-//             {myUser != null ? <AccountDetails user={myUser}/> : null}
-//         </div>
-//     );
-// };
-//
-// export default Main;
 
-
-
-//src/components/Main/index.jsx
 import styles from "./styles.module.css";
 import { useState } from "react";
-import axios from "axios";
+//import axios from "axios";
 // import { Routes, Route, Link } from "react-router-dom";
 import { useNavigate, Link } from "react-router-dom";
-import Users from "../users";
-import AccountDetails from "../accountDetails";
+// import Users from "../users";
+// import AccountDetails from "../accountDetails";
 import RecipeList from "../RecipeList";
 // import AddRecipe from "../AddRecipe";
 // import Recipe from "../Recipe";
 // import RecipeForm from "../RecipeForm";
 
+const categories = ['Śniadanie', 'Zupa', 'Obiad', 'Kolacja', 'Deser'];
+
 const Main = () => {
     const navigate = useNavigate();
-    const [dane, ustawDane] = useState([]);
-    const [myUser, setUser] = useState(null);
-    const [tytul, ustawTytul] = useState("");
+    // const [dane, ustawDane] = useState([]);
+    // const [myUser, setUser] = useState(null);
+    // const [tytul, ustawTytul] = useState("");
     //const [recipeTitle, setRecipeTitle] = useState("");
+    const [data, setData] = useState({
+        name: "",
+        category: "",
+        ingredients: "",
+        instructions: "",
+    })
 
-    const handleGetUsers = async (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem("token");
-        if (token) {
-            try {
-                const config = {
-                    method: 'get',
-                    url: 'http://localhost:8080/api/users',
-                    headers: {'Content-Type': 'application/json', 'x-access-token': token}
-                }
-                const { data: res } = await axios(config);
-                ustawDane(res.data);
-                setUser(null);
-                ustawTytul(res.message);
-            } catch (error) {
-                if (error.response && error.response.status >= 400 && error.response.status <= 500) {
-                    localStorage.removeItem("token");
-                    window.location.reload();
-                }
-            }
-        }
-    };
-
-    const handleGetAccountDetails = async (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem("token");
-        if (token) {
-            try {
-                const config = {
-                    method: 'get',
-                    url: 'http://localhost:8080/api/users/myUser',
-                    headers: {'Content-Type': 'application/json', 'x-access-token': token}
-                }
-                const { data: res } = await axios(config);
-                setUser(res.data);
-                ustawDane([]);
-                ustawTytul(res.message);
-            } catch (error) {
-                if (error.response && error.response.status >= 400 && error.response.status <= 500) {
-                    localStorage.removeItem("token");
-                    window.location.reload();
-                }
-            }
-        }
-    };
+    // const handleGetUsers = async (e) => {
+    //     e.preventDefault();
+    //     const token = localStorage.getItem("token");
+    //     if (token) {
+    //         try {
+    //             const config = {
+    //                 method: 'get',
+    //                 url: 'http://localhost:8080/api/users',
+    //                 headers: {'Content-Type': 'application/json', 'x-access-token': token}
+    //             }
+    //             const { data: res } = await axios(config);
+    //             ustawDane(res.data);
+    //             setUser(null);
+    //             ustawTytul(res.message);
+    //         } catch (error) {
+    //             if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+    //                 localStorage.removeItem("token");
+    //                 window.location.reload();
+    //             }
+    //         }
+    //     }
+    // };
+    //
+    // const handleGetAccountDetails = async (e) => {
+    //     e.preventDefault();
+    //     const token = localStorage.getItem("token");
+    //     if (token) {
+    //         try {
+    //             const config = {
+    //                 method: 'get',
+    //                 url: 'http://localhost:8080/api/users/myUser',
+    //                 headers: {'Content-Type': 'application/json', 'x-access-token': token}
+    //             }
+    //             const { data: res } = await axios(config);
+    //             setUser(res.data);
+    //             ustawDane([]);
+    //             ustawTytul(res.message);
+    //         } catch (error) {
+    //             if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+    //                 localStorage.removeItem("token");
+    //                 window.location.reload();
+    //             }
+    //         }
+    //     }
+    // };
 
     // const handleDeleteUser = async () => {
     //     const token = localStorage.getItem("token");
@@ -216,24 +107,30 @@ const Main = () => {
         <div className={styles.main_container}>
             <nav className={styles.navbar}>
                 <h1>MySite</h1>
-                <button className={styles.white_btn} onClick={handleGetUsers}>
-                    Użytkownicy
-                </button>
-                <button className={styles.white_btn} onClick={handleGetAccountDetails}>
-                    Szczegóły konta
-                </button>
+                {/*<button className={styles.white_btn} onClick={handleGetUsers}>*/}
+                {/*    Użytkownicy*/}
+                {/*</button>*/}
+                {/*<button className={styles.white_btn} onClick={handleGetAccountDetails}>*/}
+                {/*    Szczegóły konta*/}
+                {/*</button>*/}
                 {/*<button className={styles.white_btn} onClick={handleDeleteUser}>*/}
                 {/*    Usuń konto*/}
                 {/*</button>*/}
                 <Link to="/addrecipe" className={styles.white_btn}>Nowy przepis</Link>
                 <button className={styles.white_btn} onClick={handleLogout}>
-                    Logout
+                    Wyloguj
                 </button>
             </nav>
-            {tytul !== "" ? <h1>{tytul}</h1> : <p></p>}
-            {dane.length>0 ? <Users users={dane} /> : <p></p>}
-            {myUser != null ? <AccountDetails user={myUser}/> : <p></p>}
-            <RecipeList />
+            {/*<select name="category" value={data.category} onChange={handleChange} required className={styles.input}>*/}
+            {/*    <option value="">Wybierz kategorię</option>*/}
+            {/*    {categories.map(category => (*/}
+            {/*        <option key={category} value={category}>{category}</option>*/}
+            {/*    ))}*/}
+            {/*</select>*/}
+            {/*{tytul !== "" ? <h1>{tytul}</h1> : <p></p>}*/}
+            {/*{dane.length>0 ? <Users users={dane} /> : <p></p>}*/}
+            {/*{myUser != null ? <AccountDetails user={myUser}/> : <p></p>}*/}
+            <RecipeList/>
 
             {/*{dane.length>0 ? <RecipeList users={dane} /> : <p></p>}*/}
 
@@ -248,9 +145,6 @@ const Main = () => {
 };
 
 export default Main;
-
-
-
 
 
 // import styles from "./styles.module.css"
