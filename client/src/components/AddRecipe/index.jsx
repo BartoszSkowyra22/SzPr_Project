@@ -72,15 +72,6 @@ const AddRecipe = () => {
     return (
         <div className={styles.signup_container}>
             <div className={styles.signup_form_container}>
-                <div className={styles.left}>
-                    <h1>Chcesz więcej?</h1>
-                    <Link to="/">
-                        <button type="button"
-                                className={styles.white_btn}>
-                            Powrót
-                        </button>
-                    </Link>
-                </div>
                 <div className={styles.right}>
                     <form className={styles.form_container}
                           onSubmit={handleSubmit}>
@@ -122,9 +113,15 @@ const AddRecipe = () => {
                         {error && <div
                             className={styles.error_msg}>{error}</div>}
                         <button type="submit"
-                                className={styles.green_btn}>
+                                className={styles.orange_btn}>
                             {id ? "Zapisz zmiany" : "Dodaj"}
                         </button>
+                        <div className={styles.login_prompt}>
+                            Jest ok?{" "}
+                            <Link to="/" className={styles.login_link}>
+                                Powrót
+                            </Link>
+                        </div>
                     </form>
                 </div>
             </div>

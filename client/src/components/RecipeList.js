@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import styles from'./styles.module.css'
+import {Link} from 'react-router-dom';
+import styles from './styles.module.css'
 
-const RecipeList = ({ selectedCategory }) => {
+const RecipeList = ({selectedCategory}) => {
     const [recipes, setRecipes] = useState([]);
 
     const handleGetRecipes = async () => {
@@ -15,7 +15,7 @@ const RecipeList = ({ selectedCategory }) => {
                     url: 'http://localhost:8080/api/recipes',
                     headers: {'Content-Type': 'application/json', 'x-access-token': token}
                 }
-                const { data: res } = await axios(config);
+                const {data: res} = await axios(config);
                 setRecipes(res.data);
                 console.log(res.data)
             } catch (error) {
@@ -36,7 +36,7 @@ const RecipeList = ({ selectedCategory }) => {
         : recipes;
 
     return (
-        <div>
+        <div className={styles.recipe_list}>
             <h2>Lista przepisów</h2>
             <ul>
                 {filteredRecipes.map(recipe => (
